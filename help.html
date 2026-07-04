@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帮助文档</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #2f6fed;
+            color: white;
+            padding: 16px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 24px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        nav ul li a:hover {
+            opacity: 0.8;
+        }
+
+        .main-content {
+            padding: 24px 0;
+        }
+
+        .content-container {
+            background-color: white;
+            border-radius: 4px;
+            padding: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+
+            nav ul {
+                margin-top: 16px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 8px 16px;
+            }
+        }
+    </style>
+<meta name="description" content="提供使用指南和快捷键说明"><meta name="keywords" content="流程图,编辑器,模板,分享,协作"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="帮助文档"><meta property="og:description" content="提供使用指南和快捷键说明"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="帮助文档"><meta name="twitter:description" content="提供使用指南和快捷键说明"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"帮助文档","description":"提供使用指南和快捷键说明","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">流程图编辑器</div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="templates.html">模板库</a></li>
+                        <li><a href="share.html">分享与导出</a></li>
+                        <li><a href="settings.html">设置</a></li>
+                        <li><a href="help.html">帮助文档</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="content-container">
+                
+<section style="margin-bottom: 24px;">
+    <h2 style="margin-bottom: 16px;">使用指南</h2>
+    <div class="content-container">
+        <ol style="padding-left: 20px;">
+            <li>打开 <a href="index.html">首页</a>，进入编辑画布。</li>
+            <li>左侧工具栏提供节点、连线、文本等基本元素，点击后在画布任意位置点击即可创建。</li>
+            <li>选中元素后，可在右侧属性面板修改颜色、文字、大小等属性。</li>
+            <li>使用鼠标拖拽或键盘方向键微调位置，滚轮缩放画布。</li>
+            <li>完成后可在 <a href="share.html">分享与导出</a> 页面导出 PNG、JSON 或生成分享链接。</li>
+        </ol>
+    </div>
+</section>
+
+<section style="margin-bottom: 24px;">
+    <h2 style="margin-bottom: 16px;">快捷键说明</h2>
+    <div class="content-container">
+        <ul style="list-style: none; padding: 0;">
+            <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                <strong>Ctrl + Z</strong> – 撤销
+            </li>
+            <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                <strong>Ctrl + Y</strong> – 重做
+            </li>
+            <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                <strong>Del</strong> – 删除选中元素
+            </li>
+            <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                <strong>Ctrl + C / Ctrl + V</strong> – 复制 / 粘贴
+            </li>
+            <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                <strong>Ctrl + G</strong> – 组合选中元素
+            </li>
+            <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                <strong>Ctrl + U</strong> – 解除组合
+            </li>
+            <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                <strong>← ↑ → ↓</strong> – 微调选中元素位置（每次 1px）
+            </li>
+            <li style="padding: 8px 0;">
+                <strong>Space + 拖动</strong> – 暂时手掌模式，平移画布
+            </li>
+        </ul>
+    </div>
+</section>
+
+<article class="content-container" style="margin-bottom: 16px;">
+    <h3 style="margin-bottom: 16px;">常见问题</h3>
+    <ul style="list-style: none; padding: 0;">
+        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+            <strong>如何保存我的流程图？</strong><br>
+            在 <a href="share.html">分享与导出</a> 页面点击“导出 JSON”，保存到本地，之后可在首页通过“导入 JSON”恢复。
+        </li>
+        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+            <strong>画布卡顿怎么办？</strong><br>
+            请关闭不必要的浏览器标签页，或在属性面板中关闭节点阴影效果以提升渲染性能。
+        </li>
+        <li style="padding: 8px 0;">
+            <strong>想自定义节点样式？</strong><br>
+            在属性面板中点击“高级样式”，可以手动编辑 CSS 代码，实时预览效果。
+        </li>
+    </ul>
+</article>
+
+<div style="text-align: center; margin-top: 32px;">
+    <a href="index.html" style="text-decoration: none;">
+        <button class="btn" style="background-color: #2f6fed; color: white; border: none; border-radius: 4px; padding: 10px 20px; cursor: pointer; transition: opacity 0.3s;">
+            返回编辑器
+        </button>
+    </a>
+</div>
+
+            </div>
+        </div>
+    </main>
+<footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
+</html>
