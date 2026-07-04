@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分享与导出</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #2f6fed;
+            color: white;
+            padding: 16px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 24px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        nav ul li a:hover {
+            opacity: 0.8;
+        }
+
+        .main-content {
+            padding: 24px 0;
+        }
+
+        .content-container {
+            background-color: white;
+            border-radius: 4px;
+            padding: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+
+            nav ul {
+                margin-top: 16px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 8px 16px;
+            }
+        }
+    </style>
+<meta name="description" content="生成分享链接或导出图片/JSON文件"><meta name="keywords" content="流程图,编辑器,模板,分享,协作"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="分享与导出"><meta property="og:description" content="生成分享链接或导出图片/JSON文件"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="分享与导出"><meta name="twitter:description" content="生成分享链接或导出图片/JSON文件"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"分享与导出","description":"生成分享链接或导出图片/JSON文件","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">流程图编辑器</div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="templates.html">模板库</a></li>
+                        <li><a href="share.html">分享与导出</a></li>
+                        <li><a href="settings.html">设置</a></li>
+                        <li><a href="help.html">帮助文档</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="content-container">
+                
+<textarea id="jsonInput" placeholder="粘贴流程图 JSON 数据（例如：{\"nodes\":[{\"id\":\"1\",\"x\":100,\"y\":100,\"label\":\"开始\"}],\"edges\":[]}）" style="width:100%;height:180px;font-family:monospace;padding:8px;border:1px solid #ccc;border-radius:4px;"></textarea>
+<div style="margin-top:12px;">
+    <button id="renderBtn" style="background-color:#2f6fed;color:white;border:none;border-radius:4px;padding:8px 16px;cursor:pointer;">渲染预览</button>
+    <button id="shareBtn" style="background-color:#2f6fed;color:white;border:none;border-radius:4px;padding:8px 16px;cursor:pointer;margin-left:8px;">生成分享链接</button>
+    <button id="exportJsonBtn" style="background-color:#2f6fed;color:white;border:none;border-radius:4px;padding:8px 16px;cursor:pointer;margin-left:8px;">导出 JSON</button>
+    <button id="exportPngBtn" style="background-color:#2f6fed;color:white;border:none;border-radius:4px;padding:8px 16px;cursor:pointer;margin-left:8px;">导出 PNG</button>
+</div>
+<div id="preview" style="margin-top:12px;border:1px solid #ddd;min-height:200px;background:#fafafa;display:flex;align-items:center;justify-content:center;color:#666;">预览区域</div>
+
+<script>
+    // 渲染流程图到 canvas
+    function renderFlowchart(data) {
+        const preview = document.getElementById('preview');
+        preview.innerHTML = '';
+        const canvas = document.createElement('canvas');
+        canvas.width = 600;
+        canvas.height = 400;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.strokeStyle = '#555';
+        ctx.lineWidth = 2;
+        ctx.font = '14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        // 画边
+        if (data.edges && Array.isArray(data.edges)) {
+            data.edges.forEach(e => {
+                const from = data.nodes.find(n => n.id === e.from);
+                const to   = data.nodes.find(n => n.id === e.to);
+                if (from && to) {
+                    ctx.beginPath();
+                    ctx.moveTo(from.x, from.y);
+                    ctx.lineTo(to.x, to.y);
+                    ctx.stroke();
+                }
+            });
+        }
+        // 画节点
+        if (data.nodes && Array.isArray(data.nodes)) {
+            data.nodes.forEach(n => {
+                ctx.fillStyle = '#2f6fed';
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, 20, 0, Math.PI*2);
+                ctx.fill();
+                ctx.stroke();
+                ctx.fillStyle = '#fff';
+                ctx.fillText(n.label || n.id, n.x, n.y);
+            });
+        }
+        preview.appendChild(canvas);
+        // 保存 canvas 供导出使用
+        preview.dataset.canvas = canvas;
+    }
+
+    document.getElementById('renderBtn').addEventListener('click', () => {
+        const txt = document.getElementById('jsonInput').value.trim();
+        if (!txt) { alert('请输入 JSON 数据'); return; }
+        try {
+            const data = JSON.parse(txt);
+            renderFlowchart(data);
+        } catch (e) {
+            alert('JSON 解析失败：' + e.message);
+        }
+    });
+
+    document.getElementById('shareBtn').addEventListener('click', () => {
+        const txt = document.getElementById('jsonInput').value.trim();
+        if (!txt) { alert('请先输入 JSON 数据'); return; }
+        try {
+            const data = JSON.parse(txt);
+            const jsonStr = JSON.stringify(data);
+            // 安全的 Base64 编码（处理 Unicode）
+            const base64 = btoa(unescape(encodeURIComponent(jsonStr)));
+            const url = new URL('index.html', location.origin);
+            url.searchParams.set('id', base64);
+            prompt('分享链接（复制后使用）', url.toString());
+        } catch (e) {
+            alert('JSON 解析失败：' + e.message);
+        }
+    });
+
+    document.getElementById('exportJsonBtn').addEventListener('click', () => {
+        const txt = document.getElementById('jsonInput').value.trim();
+        if (!txt) { alert('请先输入 JSON 数据'); return; }
+        try {
+            const data = JSON.parse(txt);
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'flowchart.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        } catch (e) {
+            alert('JSON 解析失败：' + e.message);
+        }
+    });
+
+    document.getElementById('exportPngBtn').addEventListener('click', () => {
+        const preview = document.getElementById('preview');
+        const canvas = preview.querySelector('canvas');
+        if (!canvas) { alert('请先渲染预览'); return; }
+        canvas.toBlob(blob => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'flowchart.png';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+    });
+</script>
+
+            </div>
+        </div>
+    </main>
+<footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
+</html>
