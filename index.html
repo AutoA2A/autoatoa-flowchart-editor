@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>流程图编辑器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #2f6fed;
+            color: white;
+            padding: 16px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 24px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        nav ul li a:hover {
+            opacity: 0.8;
+        }
+
+        .main-content {
+            padding: 24px 0;
+        }
+
+        .content-container {
+            background-color: white;
+            border-radius: 4px;
+            padding: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+
+            nav ul {
+                margin-top: 16px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 8px 16px;
+            }
+        }
+    </style>
+<meta name="description" content="核心编辑页面，提供画布、工具栏和属性面板"><meta name="keywords" content="流程图,编辑器,模板,分享,协作"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="流程图编辑器"><meta property="og:description" content="核心编辑页面，提供画布、工具栏和属性面板"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="流程图编辑器"><meta name="twitter:description" content="核心编辑页面，提供画布、工具栏和属性面板"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"流程图编辑器","description":"核心编辑页面，提供画布、工具栏和属性面板","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">流程图编辑器</div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="templates.html">模板库</a></li>
+                        <li><a href="share.html">分享与导出</a></li>
+                        <li><a href="settings.html">设置</a></li>
+                        <li><a href="help.html">帮助文档</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="content-container">
+                
+<divstyle="display:flex; gap:16px;">
+  <!-- 工具栏 -->
+  <div style="flex:0 0 120px;">
+    <button id="addNodeBtn" style="background:#2f6fed;color:#fff;border:none;border-radius:4px;padding:8px;width:100%;margin-bottom:8px;">添加节点</button>
+    <button id="linkModeBtn" style="background:#2f6fed;color:#fff;border:none;border-radius:4px;padding:8px;width:100%;margin-bottom:8px;">连线模式</button>
+    <button id="deleteBtn" style="background:#2f6fed;color:#fff;border:none;border-radius:4px;padding:8px;width:100%;margin-bottom:8px;">删除选中</button>
+    <button id="clearBtn" style="background:#2f6fed;color:#fff;border:none;border-radius:4px;padding:8px;width:100%;">清空画布</button>
+  </div>
+
+  <!-- 画布 + 属性面板 -->
+  <div style="flex:1; display:flex; gap:16px;">
+    <div id="canvasWrapper" style="flex:3; position:relative; background:#fafafa; border:1px solid #eee; border-radius:4px;">
+      <svg id="flowCanvas" width="100%" height="100%" style="display:block;"></svg>
+    </div>
+
+    <div id="propertiesPanel" style="flex:1; background:#fff; border:1px solid #eee; border-radius:4px; padding:16px;">
+      <h3 style="margin-top:0; color:#333;">属性</h3>
+      <div id="propsContent" style="display:none;">
+        <p>选中节点：<span id="selectedNodeId">-</span></p>
+        <p>位置：<span id="selectedNodePos">(-, -)</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const svg = document.getElementById('flowCanvas');
+  const addNodeBtn = document.getElementById('addNodeBtn');
+  const linkModeBtn = document.getElementById('linkModeBtn');
+  const deleteBtn = document.getElementById('deleteBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const propsContent = document.getElementById('propsContent');
+  const selectedNodeIdSpan = document.getElementById('selectedNodeId');
+  const selectedNodePosSpan = document.getElementById('selectedNodePos');
+
+  let nodes = []; // {id, cx, cy, element}
+  let links = []; // {sourceId, targetId, element}
+  let nodeIdCounter = 1;
+  let linkMode = false;
+  let sourceNode = null;
+
+  function getSVGPoint(evt) {
+    const pt = svg.createSVGPoint();
+    pt.x = evt.clientX;
+    pt.y = evt.clientY;
+    return pt.matrixTransform(svg.getScreenCTM().inverse());
+  }
+
+  function addNode(x, y) {
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('class', 'node');
+    g.setAttribute('data-id', nodeIdCounter);
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', x);
+    circle.setAttribute('cy', y);
+    circle.setAttribute('r', 20);
+    circle.setAttribute('fill', '#4a90e2');
+    circle.setAttribute('stroke', '#fff');
+    circle.setAttribute('stroke-width', 2);
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', x);
+    text.setAttribute('y', y + 4);
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('fill', '#fff');
+    text.setAttribute('font-size', 12);
+    text.textContent = 'N' + nodeIdCounter;
+    g.appendChild(circle);
+    g.appendChild(text);
+    svg.appendChild(g);
+    const node = {id: nodeIdCounter, cx: x, cy: y, element: g};
+    nodes.push(node);
+    nodeIdCounter++;
+    return node;
+  }
+
+  function selectNode(node) {
+    nodes.forEach(n => {
+      const circle = n.element.querySelector('circle');
+      if (circle) circle.setAttribute('stroke-width', 2);
+    });
+    const circle = node.element.querySelector('circle');
+    if (circle) circle.setAttribute('stroke-width', 4);
+    selectedNodeIdSpan.textContent = node.id;
+    selectedNodePosSpan.textContent = `(${Math.round(node.cx)}, ${Math.round(node.cy)})`;
+    propsContent.style.display = 'block';
+  }
+
+  function clearSelection() {
+    nodes.forEach(n => {
+      const circle = n.element.querySelector('circle');
+      if (circle) circle.setAttribute('stroke-width', 2);
+    });
+    selectedNodeIdSpan.textContent = '-';
+    selectedNodePosSpan.textContent = '(-, -)';
+    propsContent.style.display = 'none';
+    sourceNode = null;
+  }
+
+  function deleteSelected() {
+    if (!sourceNode) return;
+    nodes = nodes.filter(n => n.id !== sourceNode.id);
+    sourceNode.element.remove();
+    links = links.filter(l => {
+      if (l.sourceId === sourceNode.id || l.targetId === sourceNode.id) {
+        l.element.remove();
+        return false;
+      }
+      return true;
+    });
+    clearSelection();
+  }
+
+  function clearCanvas() {
+    nodes.forEach(n => n.element.remove());
+    links.forEach(l => l.element.remove());
+    nodes = [];
+    links = [];
+    nodeIdCounter = 1;
+    clearSelection();
+    linkMode = false;
+    linkModeBtn.textContent = '连线模式';
+    linkModeBtn.style.background = '#2f6fed';
+  }
+
+  function createLink(source, target) {
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    const d = `M${source.cx},${source.cy} L${target.cx},${target.cy}`;
+    path.setAttribute('d', d);
+    path.setAttribute('stroke', '#888');
+    path.setAttribute('stroke-width', 2);
+    path.setAttribute('fill', 'none');
+    svg.appendChild(path);
+    links.push({sourceId: source.id, targetId: target.id, element: path});
+  }
+
+  svg.addEventListener('click', evt => {
+    const pt = getSVGPoint(evt);
+    let hitNode = null;
+    nodes.forEach(n => {
+      const dx = pt.x - n.cx;
+      const dy = pt.y - n.cy;
+      if (Math.sqrt(dx*dx + dy*dy) <= 20) hitNode = n;
+    });
+    if (hitNode) {
+      if (linkMode && sourceNode) {
+        if (sourceNode.id !== hitNode.id) createLink(sourceNode, hitNode);
+        clearSelection();
+        selectNode(hitNode);
+      } else {
+        selectNode(hitNode);
+        sourceNode = hitNode;
+      }
+    } else {
+      if (!linkMode) {
+        addNode(pt.x, pt.y);
+        clearSelection();
+      }
+    }
+  });
+
+  addNodeBtn.addEventListener('click', () => {
+    const rect = svg.getBoundingClientRect();
+    addNode(rect.width / 2, rect.height / 2);
+    clearSelection();
+  });
+
+  linkModeBtn.addEventListener('click', () => {
+    linkMode = !linkMode;
+    if (linkMode) {
+      linkModeBtn.textContent = '取消连线';
+      linkModeBtn.style.background = '#d9534f';
+    } else {
+      linkModeBtn.textContent = '连线模式';
+      linkModeBtn.style.background = '#2f6fed';
+    }
+    clearSelection();
+    sourceNode = null;
+  });
+
+  deleteBtn.addEventListener('click', deleteSelected);
+  clearBtn.addEventListener('click', clearCanvas);
+</script>
+
+            </div>
+        </div>
+    </main>
+<footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
+</html>
