@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模板库</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #2f6fed;
+            color: white;
+            padding: 16px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 24px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        nav ul li a:hover {
+            opacity: 0.8;
+        }
+
+        .main-content {
+            padding: 24px 0;
+        }
+
+        .content-container {
+            background-color: white;
+            border-radius: 4px;
+            padding: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+
+            nav ul {
+                margin-top: 16px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 8px 16px;
+            }
+        }
+    </style>
+<meta name="description" content="提供预设流程图模板，可直接导入编辑器"><meta name="keywords" content="流程图,编辑器,模板,分享,协作"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="模板库"><meta property="og:description" content="提供预设流程图模板，可直接导入编辑器"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="模板库"><meta name="twitter:description" content="提供预设流程图模板，可直接导入编辑器"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"模板库","description":"提供预设流程图模板，可直接导入编辑器","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">流程图编辑器</div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="templates.html">模板库</a></li>
+                        <li><a href="share.html">分享与导出</a></li>
+                        <li><a href="settings.html">设置</a></li>
+                        <li><a href="help.html">帮助文档</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="content-container">
+                
+<section style="margin-bottom: 24px;">
+    <h2 style="margin-bottom: 16px;">模板库</h2>
+    <div class="content-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;">
+        <article class="content-container" style="margin-bottom: 0;">
+            <h3 style="margin-bottom: 8px;">基本流程</h3>
+            <p style="margin:0 0 12px;color:#555;">开始 → 处理 → 结束</p>
+            <button class="btn" style="background-color:#2f6fed;color:white;border:none;border-radius:4px;padding:8px 16px;cursor:pointer;transition:opacity .3s;" data-tpl="basic">使用此模板</button>
+        </article>
+        <article class="content-container" style="margin-bottom: 0;">
+            <h3 style="margin-bottom: 8px;">审批流程</h3>
+            <p style="margin:0 0 12px;color:#555;">开始 → 审批1 → 审批2 → 结束</p>
+            <button class="btn" style="background-color:#2f6fed;color:white;border:none;border-radius:4px;padding:8px 16px;cursor:pointer;transition:opacity .3s;" data-tpl="approval">使用此模板</button>
+        </article>
+        <article class="content-container" style="margin-bottom: 0;">
+            <h3 style="margin-bottom: 8px;">决策流程</h3>
+            <p style="margin:0 0 12px;color:#555;">开始 → 决定 → 是/否 → 处理 → 结束</p>
+            <button class="btn" style="background-color:#2f6fed;color:white;border:none;border-radius:4px;padding:8px 16px;cursor:pointer;transition:opacity .3s;" data-tpl="decision">使用此模板</button>
+        </article>
+    </div>
+</section>
+
+<script>
+    // 预设模板数据（可自行扩展）
+    const templates = {
+        basic: {
+            nodes: [
+                {id: "n1", type: "start", label: "开始"},
+                {id: "n2", type: "process", label: "处理"},
+                {id: "n3", type: "end", label: "结束"}
+            ],
+            edges: [
+                {from: "n1", to: "n2"},
+                {from: "n2", to: "n3"}
+            ]
+        },
+        approval: {
+            nodes: [
+                {id: "n1", type: "start", label: "开始"},
+                {id: "n2", type: "approval", label: "审批1"},
+                {id: "n3", type: "approval", label: "审批2"},
+                {id: "n4", type: "end", label: "结束"}
+            ],
+            edges: [
+                {from: "n1", to: "n2"},
+                {from: "n2", to: "n3"},
+                {from: "n3", to: "n4"}
+            ]
+        },
+        decision: {
+            nodes: [
+                {id: "n1", type: "start", label: "开始"},
+                {id: "n2", type: "decision", label: "决定"},
+                {id: "n3", type: "process", label: "是"},
+                {id: "n4", type: "process", label: "否"},
+                {id: "n5", type: "end", label: "结束"}
+            ],
+            edges: [
+                {from: "n1", to: "n2"},
+                {from: "n2", to: "n3", condition: "是"},
+                {from: "n2", to: "n4", condition: "否"},
+                {from: "n3", to: "n5"},
+                {from: "n4", to: "n5"}
+            ]
+        }
+    };
+
+    document.querySelectorAll('button[data-tpl]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const key = btn.getAttribute('data-tpl');
+            const data = templates[key];
+            if (data) {
+                // 将模板数据存入 localStorage，编辑器页面自行读取
+                localStorage.setItem('flowchart-template', JSON.stringify(data));
+                // 跳转到编辑器首页并携带模板标识
+                window.location.href = `index.html?id=${key}`;
+            }
+        });
+    });
+</script>
+
+            </div>
+        </div>
+    </main>
+<footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
+</html>
